@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./index.css";
 
+const API_URL = "https://dvv880zp-5000.inc1.devtunnels.ms"; // Use the tunnel URL
+
 function App() {
   const [name, setName] = useState("");
   const [assignedCard, setAssignedCard] = useState(null);
@@ -14,7 +16,7 @@ function App() {
 
   const fetchAssignedCards = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/assigned-cards");
+      const response = await axios.get(`${API_URL}/assigned-cards`);
       setAssignedList(response.data);
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -26,11 +28,9 @@ function App() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5000/assign-card", {
-        name,
-      });
+      const response = await axios.post(`${API_URL}/assign-card`, { name });
       setAssignedCard(response.data);
-      fetchAssignedCards(); // Refresh list
+      fetchAssignedCards();
     } catch (err) {
       setError(err.response?.data?.error || "Something went wrong");
     }
